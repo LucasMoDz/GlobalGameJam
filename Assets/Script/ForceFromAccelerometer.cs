@@ -21,8 +21,17 @@ public class ForceFromAccelerometer : MonoBehaviour
 
     private void Update()
     {
+        #if UNITY_EDITOR
+
+        gx = Input.GetAxis("Horizontal") * reactivity;
+        gy = Input.GetAxis("Vertical") * reactivity;
+
+        #else
+
         gx = Input.acceleration.x * reactivity;
         gy = Input.acceleration.y * reactivity;
+
+        #endif
     }
 
     private void FixedUpdate()
