@@ -4,8 +4,6 @@ public class WaveBarHandler : MonoBehaviour
 {
 	private RectTransform rectArrow;
 	public int count = 15;
-
-    private float xPosition;
     
 	private void Awake()
     {
