@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 public class LoadScene : MonoBehaviour {
 
 	public GameObject CanvasFade;
-	public string sceneToLoad;
+	public int sceneToLoad;
 
 	public void Start () {
 		CanvasFade.GetComponent<CanvasGroup> ().alpha = 1;
