@@ -11,26 +11,16 @@ public class ForceFromAccelerometer : MonoBehaviour
 
     private Rigidbody2D rb;
 
-    public UnityEngine.UI.Text text;
-
     private float gx, gy;
-
-    Quaternion currentRotation;
     
     private void Awake()
     {
-        Input.gyro.enabled = true;
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
-
         rb = this.GetComponent<Rigidbody2D>();
     }
 
     private void Update()
     {
-        currentRotation = Input.gyro.attitude;
-
-        text.text = Input.acceleration.x.ToString();
-
         gx = Input.acceleration.x * reactivity;
         gy = Input.acceleration.y * reactivity;
     }
