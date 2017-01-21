@@ -25,6 +25,7 @@ public class SpawnWaves : MonoBehaviour
 
     public void GenerateSpawnPoints()
     {
+        #region Create child point
         for (int i = 0; i < sides.Length; i++)
         {
             for (int j = 0; j < sides[i].pointCount; j++)
@@ -35,7 +36,9 @@ public class SpawnWaves : MonoBehaviour
                 newTransform.transform.localPosition = new Vector2(sides[i].points[j].x, sides[i].points[j].y);
             }
         }
+        #endregion
 
+        #region Create targets list
         for (int i = 0; i < sides[0].transform.childCount; i++)
         {
             if (Random.Range(0, 101) > 100 - spawnPercentage)
@@ -49,6 +52,7 @@ public class SpawnWaves : MonoBehaviour
                 Destroy(sides[1].transform.GetChild(i).gameObject);
             }
         }
+        #endregion
     }
 }
 

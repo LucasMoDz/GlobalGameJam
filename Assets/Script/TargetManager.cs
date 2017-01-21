@@ -14,7 +14,7 @@ public class TargetManager : MonoBehaviour {
 	
 	void SetCount ()
     {
-        int num = Random.Range(-15, 15);
+        int num = Random.Range(-15, 16);
         wabaha.count += num;
         
 	}
