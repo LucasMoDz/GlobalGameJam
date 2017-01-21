@@ -10,6 +10,7 @@ public class AnimatorController : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         anim.SetBool("isSurprised", true);
+		//StartCoroutine(PlayerIdleCO());
     }
 
     private void Update()
@@ -38,4 +39,11 @@ public class AnimatorController : MonoBehaviour
         anim.SetBool("isTouched", false);
         animHappy.SetActive(true);
     }
+
+	public IEnumerator PlayerIdleCO()
+	{
+		anim.SetBool("isTouched", true);
+		yield return new WaitForSeconds(1f);
+
+	}
 }
