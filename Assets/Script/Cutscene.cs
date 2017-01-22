@@ -2,12 +2,13 @@
 using UnityEngine.UI;
 using System.Collections;
 
+[RequireComponent(typeof(Zoom))]
 public class Cutscene : MonoBehaviour
 {
     public Text textBox;
 
     private const byte SECONDS_TO_FADE = 2;
-    private const byte WAIT_TIME_TO_DISABLE_TEXT_BOX = 4;
+    private float waitTimeToDisableTextBox = 4;
 
     public Frame[] frames;
 
@@ -41,12 +42,30 @@ public class Cutscene : MonoBehaviour
             else
             {
                 for (int j = 0; j < frames[i].image.Length; j++)
+                {
+                    frames[i].image[j].color = Color.white;
                     frames[i].image[j].gameObject.SetActive(true);
+                }
             }
                 
             textBox.text = frames[i].text;
-            yield return new WaitForSeconds(WAIT_TIME_TO_DISABLE_TEXT_BOX);
+            
+            while(waitTimeToDisableTextBox > 0)
+            {
+                waitTimeToDisableTextBox -= Time.deltaTime;
+
+                if (Input.touchCount == 1)
+                    yield break;
+                else
+                    yield return null;
+            }
+
+            waitTimeToDisableTextBox = 4;
         }
+
+        yield return new WaitForSeconds(2);
+
+        this.GetComponent<Zoom>().StartCameraTransition();
 
         textBox.gameObject.SetActive(false);
         Debug.Log("End of cutscene");
@@ -55,12 +74,19 @@ public class Cutscene : MonoBehaviour
     private IEnumerator FadeInCO(Image _image)
     {
         Color newColor = new Color(1, 1, 1, 0);
-
+        
         while (newColor.a < 1)
         {
             newColor.a += Time.deltaTime / SECONDS_TO_FADE;
             _image.color = newColor;
-            yield return null;
+
+            if (Input.touchCount == 1)
+            {
+                newColor.a = 1;
+                yield break;
+            }
+            else
+                yield return null;
         }
     }
 }

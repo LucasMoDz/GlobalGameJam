@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-public class TargetManager : MonoBehaviour {
-
-    WaveBarHandler wabaha;
+public class TargetManager : MonoBehaviour
+{
+    private WaveBarHandler wabaha;
+    public GameObject red, orange, green, blue, purple;
 	
 	void Start ()
     {
@@ -11,31 +11,24 @@ public class TargetManager : MonoBehaviour {
         SetCount();
 	}
 	
-	
 	void SetCount ()
     {
         int num = Random.Range(-15, 16);
-        int range = wabaha.count += num;
+        int range = wabaha.count + num;
 
-        if(range >=0 && range <= 5)
-            wabaha.UpdateTarget(1);
+        if (range >= 0 && range <= 5)
+            purple.SetActive(true);
 
         else if (range >= 6 && range <= 11)
-            wabaha.UpdateTarget(2);
+            blue.SetActive(true);
 
         else if (range >= 12 && range <= 17)
-            wabaha.UpdateTarget(3);
+            green.SetActive(true);
 
         else if (range >= 18 && range <= 23)
-            wabaha.UpdateTarget(4);
+            orange.SetActive(true);
 
         else if (range >= 24 && range <= 30)
-            wabaha.UpdateTarget(5);
-
-
-
-
-
+            red.SetActive(true);
     }
-
 }

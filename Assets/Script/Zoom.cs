@@ -1,46 +1,51 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Zoom : MonoBehaviour {
+public class Zoom : MonoBehaviour
+{
+    public Camera targetCamera;
+    private Camera mainCamera;
 
-    public float zoomIn = 1f;
-    public float zoomOut = 8f;
-    Camera main;
+    public float transitionSeconds;
      
-
-    void Start()
+    private void Awake()
     {
-        main = this.GetComponent<Camera>();
+        mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
     }
 
-    public IEnumerator IncreaseZoom()
+    public void StartCameraTransition()
     {
-        while (main.orthographicSize > zoomIn)
+        StartCoroutine(CameraTransitionCO());
+        StartCoroutine(IncreaseZoomCO());
+    }
+
+    private IEnumerator CameraTransitionCO()
+    {
+        Vector2 currentCameraPosition = mainCamera.transform.position;
+        float step = 0;
+
+        while ((targetCamera.transform.position - mainCamera.transform.position).magnitude > 0.1f)
         {
-            main.orthographicSize -= 0.1f;
-            yield return new WaitForSeconds(0.01f);
+            step += Time.deltaTime / transitionSeconds;
+            mainCamera.transform.position = Vector2.Lerp(currentCameraPosition, targetCamera.transform.position, step);
+            yield return null;
         }
-        yield break;
+
+        mainCamera.transform.position = targetCamera.transform.position;
     }
 
-    public IEnumerator DecreaseZoom()
+    private IEnumerator IncreaseZoomCO()
     {
-        while (main.orthographicSize < zoomOut)
+        float startSizeCamera = mainCamera.orthographicSize;
+        float step = 0;
+
+        while ((Mathf.Abs(mainCamera.orthographicSize - targetCamera.orthographicSize) > 0.1f))
         {
-            main.orthographicSize += 0.1f;
-            yield return new WaitForSeconds(0.01f);
+            step += Time.deltaTime / transitionSeconds;
+            mainCamera.orthographicSize = Mathf.Lerp(startSizeCamera, targetCamera.orthographicSize, step);
+            yield return null;
         }
-        yield break;
+
+        mainCamera.orthographicSize = targetCamera.orthographicSize;
     }
-
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.I))
-            StartCoroutine(IncreaseZoom());
-
-        if (Input.GetKeyDown(KeyCode.O))
-            StartCoroutine(DecreaseZoom());
-    }
-
-
 }
