@@ -5,6 +5,7 @@ using System.Collections;
 public class TimeBar : MonoBehaviour
 {
     public Image barTime;
+    public bool timeEnabled = true;
     public float seconds = 60;
     public float pieceToFill;
     Life life;
@@ -24,12 +25,17 @@ public class TimeBar : MonoBehaviour
 
     public IEnumerator DecreaseBar()
     {
-        while (barTime.fillAmount > 0)
-        {
-            barTime.fillAmount -= pieceToFill;
-            yield return new WaitForSeconds(1);
-        }
-        StartCoroutine(life.Die());
+        
+        
+            while (barTime.fillAmount > 0)
+            {
+            if (timeEnabled == true)
+                barTime.fillAmount -= pieceToFill;
+                yield return new WaitForSeconds(1);
+            }
+
+            StartCoroutine(life.Die());
+        
         yield break;
     }
 }
