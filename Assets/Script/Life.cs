@@ -19,7 +19,9 @@ public class Life : MonoBehaviour {
     public IEnumerator Die()
     {
         this.GetComponent<ForceFromAccelerometer>().enabled = false;
-
+        this.GetComponent<AudioSource>().clip = AudioContainer.Self.morte;
+        this.GetComponent<AudioSource>().Play();
+        
         yield return new WaitForSeconds(2f);
 
         SceneManager.LoadScene("Game Over");
