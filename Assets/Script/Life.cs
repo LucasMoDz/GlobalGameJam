@@ -8,6 +8,8 @@ public class Life : MonoBehaviour {
     public bool senzaBarriera = false;
     TimeBar timeElements;
     public Canvas mainC;
+    public GameObject CanvasFade;
+
 
     void Start()
     {
@@ -32,8 +34,12 @@ public class Life : MonoBehaviour {
         this.GetComponent<Rigidbody2D>().isKinematic = true;
         this.GetComponent<AudioSource>().clip = AudioContainer.Self.morte;
         this.GetComponent<AudioSource>().Play();
-        
-        yield return new WaitForSeconds(2f);
+
+        yield return new WaitForSeconds(0.2f);
+        CanvasFade.GetComponent<CanvasFader>().FadeIn();
+        yield return new WaitForSeconds(0.8f);
+
+        yield return new WaitForSeconds(1.5f);
 
         SceneManager.LoadScene("Game Over");
 
