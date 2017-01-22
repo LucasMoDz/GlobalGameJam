@@ -47,8 +47,12 @@ public class Cutscene : MonoBehaviour
                 {
                     frames[i].image[j].GetComponent<SpriteRenderer>().color = Color.white;
                     frames[i].image[j].gameObject.SetActive(true);
-                    this.GetComponent<AudioSource>().clip = frames[i].sound;
-                    this.GetComponent<AudioSource>().Play();
+
+                    if (frames[i].sound != null)
+                    {
+                        this.GetComponent<AudioSource>().clip = frames[i].sound;
+                        this.GetComponent<AudioSource>().Play();
+                    }
                 }
             }
                 
