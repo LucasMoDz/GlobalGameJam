@@ -7,7 +7,7 @@ public class CameraFollow : MonoBehaviour {
 
     void Start()
     {
-		target = GameObject.FindGameObjectWithTag ("Player").transform;
+		target = GameObject.FindGameObjectWithTag ("Neurone").transform;
     }
 
    
