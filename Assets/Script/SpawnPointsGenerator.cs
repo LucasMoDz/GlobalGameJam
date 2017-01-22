@@ -6,8 +6,12 @@ public class SpawnPointsGenerator : MonoBehaviour
     [Range(0, 100)]
     public int spawnPercentage;
 
+    public int maxPairs;
+
     public List<SpawnPoint> listSpawnPoints;
     private EdgeCollider2D[] sides;
+
+    private int currentPairs = 0;
 
     private void Awake()
     {
@@ -30,10 +34,14 @@ public class SpawnPointsGenerator : MonoBehaviour
         {
             for (int j = 0; j < sides[i].pointCount; j++)
             {
-                GameObject newTransform = new GameObject();
-                newTransform.transform.SetParent(sides[i].gameObject.transform);
-                newTransform.transform.name = newTransform.transform.parent.name + "_Child(" + i + ")";
-                newTransform.transform.localPosition = new Vector2(sides[i].points[j].x, sides[i].points[j].y);
+                if (j != sides[i].pointCount - 1)
+                {
+                    GameObject newTransform = new GameObject();
+                    newTransform.transform.SetParent(sides[i].gameObject.transform);
+                    newTransform.transform.name = newTransform.transform.parent.name + "_Child(" + i + ")";
+                    newTransform.transform.localPosition = new Vector2(sides[i].points[j].x, sides[i].points[j].y);
+                    currentPairs++;
+                }
             }
         }
         #endregion
@@ -51,7 +59,7 @@ public class SpawnPointsGenerator : MonoBehaviour
                 Destroy(sides[0].transform.GetChild(i).gameObject);
                 Destroy(sides[1].transform.GetChild(i).gameObject);
             }
-        }
+        } 
         #endregion
     }
 }
@@ -60,6 +68,7 @@ public class SpawnPointsGenerator : MonoBehaviour
 public class SpawnPoint
 {
     public GameObject firstTransform, secondTransform;
+    public bool isSpawned;
 
     public SpawnPoint(GameObject _first, GameObject _second)
     {

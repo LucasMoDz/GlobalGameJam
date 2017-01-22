@@ -4,14 +4,11 @@ using System.Collections;
 public class SpawnWavesManager : MonoBehaviour
 {
     public GameObject[] waves;
-
-    private ObjectPool objectPool;
     private SpawnPointsGenerator[] generator;
 
     private void Start()
     {
         generator = FindObjectsOfType<SpawnPointsGenerator>();
-        objectPool = FindObjectOfType<ObjectPool>();
 
         StartWavesManager();
     }
@@ -27,9 +24,16 @@ public class SpawnWavesManager : MonoBehaviour
         {
             for (int j = 0; j < generator[i].listSpawnPoints.Count; j++)
             {
-                int value = Random.Range(0, waves.Length - 1);
-                GameObject newWave = waves[value].Spawn(generator[i].listSpawnPoints[j].firstTransform.transform.position);
-                StartCoroutine(WaveMovementCO(newWave, generator[i].listSpawnPoints[j].secondTransform.transform));
+                int value = Random.Range(0, waves.Length);
+
+                GameObject newWave = Instantiate(waves[value]);
+                newWave.transform.position = generator[i].listSpawnPoints[j].firstTransform.transform.position;
+
+                if (!generator[i].listSpawnPoints[j].isSpawned)
+                {
+                    StartCoroutine(WaveMovementCO(newWave, generator[i].listSpawnPoints[j].secondTransform.transform));
+                    generator[i].listSpawnPoints[j].isSpawned = true;
+                }
             }
         }
         
@@ -40,7 +44,7 @@ public class SpawnWavesManager : MonoBehaviour
     {
         _wave.SetActive(true);
         float seconds = 0;
-        float randomValue = Random.Range(1f, 3f);
+        float randomValue = Random.Range(1f, 5f);
         Vector2 startPosition = _wave.transform.position;
         
         while((_wave.transform.position - _pointTarget.position).magnitude > 0.2f)
@@ -50,14 +54,13 @@ public class SpawnWavesManager : MonoBehaviour
             yield return null;
         }
 
-        randomValue = Random.Range(3f, 6f);
-        yield return new WaitForSeconds(randomValue);
+        float randomValue_1 = Random.Range(3f, 7f);
+        yield return new WaitForSeconds(randomValue_1);
 
         _wave.gameObject.SetActive(false);
 
-        randomValue = Random.Range(6f, 12f);
-
-        yield return new WaitForSeconds(randomValue);
+        float randomValue_2 = Random.Range(6f, 12f);
+        yield return new WaitForSeconds(randomValue_2);
 
         _wave.transform.position = startPosition;
         StartCoroutine(WaveMovementCO(_wave, _pointTarget));
