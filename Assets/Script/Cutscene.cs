@@ -69,6 +69,7 @@ public class Cutscene : MonoBehaviour
                 
             textBox.text = frames[i].text;
             
+            /*
             while(waitTimeToDisableTextBox > 0)
             {
                 waitTimeToDisableTextBox -= Time.deltaTime;
@@ -80,6 +81,7 @@ public class Cutscene : MonoBehaviour
             }
 
             waitTimeToDisableTextBox = 4;
+            */
         }
 
         yield return new WaitForSeconds(2);
@@ -87,7 +89,6 @@ public class Cutscene : MonoBehaviour
         this.GetComponent<Zoom>().StartCameraTransition();
 
         textBox.gameObject.SetActive(false);
-        Debug.Log("End of cutscene");
     }
 
     private IEnumerator FadeInCO(GameObject _sprite)
@@ -98,7 +99,9 @@ public class Cutscene : MonoBehaviour
         {
             newColor.a += Time.deltaTime / SECONDS_TO_FADE;
             _sprite.GetComponent<Image>().color = newColor;
+            yield return null;
 
+            /*
             if (Input.touchCount == 1)
             {
                 newColor.a = 1;
@@ -106,6 +109,7 @@ public class Cutscene : MonoBehaviour
             }
             else
                 yield return null;
+                */
         }
     }
 }
