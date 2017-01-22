@@ -41,11 +41,14 @@ public class Barrier : MonoBehaviour {
         }
         else if (coll.gameObject.tag == "Pareti" && (life - danno) < danno)
         {
+            this.transform.parent.GetComponent<Life>().senzaBarriera = true;
             this.transform.parent.GetComponent<CircleCollider2D>().enabled = true;
             Destroy(this.transform.parent.transform.GetChild(0).gameObject);
             Destroy(this.transform.parent.transform.GetChild(1).gameObject);
             Destroy(this.transform.parent.transform.GetChild(2).gameObject);
         }
+
+
     }
 
 }

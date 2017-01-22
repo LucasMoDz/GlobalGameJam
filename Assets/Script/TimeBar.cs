@@ -7,12 +7,14 @@ public class TimeBar : MonoBehaviour
     public Image barTime;
     public float seconds = 60;
     public float pieceToFill;
+    Life life;
 
 
     private void Start()
     {
         StartCoroutine(DecreaseBar());
         pieceToFill = barTime.fillAmount / seconds;
+        life = FindObjectOfType<Life>();
     }
 
 	public void DecreaseCo ()
@@ -27,6 +29,7 @@ public class TimeBar : MonoBehaviour
             barTime.fillAmount -= pieceToFill;
             yield return new WaitForSeconds(1);
         }
+        StartCoroutine(life.Die());
         yield break;
     }
 }
