@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class Zoom : MonoBehaviour
 {
+    private CanvasFader canvasFader;
     public Camera targetCamera;
     private Camera mainCamera;
 
@@ -11,6 +13,7 @@ public class Zoom : MonoBehaviour
     private void Awake()
     {
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+        canvasFader = FindObjectOfType<CanvasFader>();
     }
 
     void Update()
@@ -59,6 +62,18 @@ public class Zoom : MonoBehaviour
         mainCamera.orthographicSize = targetCamera.orthographicSize;
 
         yield return new WaitForSeconds(1);
-        StartCoroutine(FindObjectOfType<TriggerExit>().FadeToScene("LevelGame"));
+
+        StartCoroutine(FadeToScene("LevelGame"));
+    }
+
+    public IEnumerator FadeToScene(string scene)
+    {
+        if (canvasFader != null)
+        {
+            yield return new WaitForSeconds(0.2f);
+            canvasFader.GetComponent<CanvasFader>().FadeIn();
+            yield return new WaitForSeconds(0.8f);
+            SceneManager.LoadScene(scene);
+        }
     }
 }
