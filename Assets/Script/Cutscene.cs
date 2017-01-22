@@ -68,20 +68,8 @@ public class Cutscene : MonoBehaviour
             }
                 
             textBox.text = frames[i].text;
-            
-            /*
-            while(waitTimeToDisableTextBox > 0)
-            {
-                waitTimeToDisableTextBox -= Time.deltaTime;
 
-                if (Input.touchCount == 1)
-                    yield break;
-                else
-                    yield return null;
-            }
-
-            waitTimeToDisableTextBox = 4;
-            */
+            yield return new WaitForSeconds(4);
         }
 
         yield return new WaitForSeconds(2);
@@ -100,16 +88,6 @@ public class Cutscene : MonoBehaviour
             newColor.a += Time.deltaTime / SECONDS_TO_FADE;
             _sprite.GetComponent<Image>().color = newColor;
             yield return null;
-
-            /*
-            if (Input.touchCount == 1)
-            {
-                newColor.a = 1;
-                yield break;
-            }
-            else
-                yield return null;
-                */
         }
     }
 }
