@@ -34,12 +34,23 @@ public class Cutscene : MonoBehaviour
 
     private IEnumerator StartCutsceneCO()
     {
+        yield return new WaitForSeconds(1);
+
         for (int i = 0; i < frames.Length; i++)
         {
             if (frames[i].fading)
             {
                 for (int j = 0; j < frames[i].image.Length; j++)
-                    StartCoroutine(FadeInCO(frames[i].image[j]));
+                {
+                    if (frames[i].image[j] != null)
+                        StartCoroutine(FadeInCO(frames[i].image[j]));
+
+                    if (frames[i].sound != null)
+                    {
+                        this.GetComponent<AudioSource>().clip = frames[i].sound;
+                        this.GetComponent<AudioSource>().Play();
+                    }
+                }
             }
             else
             {
