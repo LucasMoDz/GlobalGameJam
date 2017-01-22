@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 
 [RequireComponent(typeof(Zoom))]
+[RequireComponent(typeof(AudioSource))]
 public class Cutscene : MonoBehaviour
 {
     public Text textBox;
@@ -18,6 +19,7 @@ public class Cutscene : MonoBehaviour
         public string text;
         public bool fading;
         public GameObject[] image;
+        public AudioClip sound;
     }
 
     private void Awake()
@@ -45,6 +47,8 @@ public class Cutscene : MonoBehaviour
                 {
                     frames[i].image[j].GetComponent<SpriteRenderer>().color = Color.white;
                     frames[i].image[j].gameObject.SetActive(true);
+                    this.GetComponent<AudioSource>().clip = frames[i].sound;
+                    this.GetComponent<AudioSource>().Play();
                 }
             }
                 
