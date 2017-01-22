@@ -19,4 +19,10 @@ public class AudioContainer : MonoBehaviour {
     public AudioClip vittoria;
     public AudioClip risucchio;
     public AudioClip sottofondo;
+    public AudioClip alpha;
+    public AudioClip beta;
+    public AudioClip gamma;
+    public AudioClip delta;
+    public AudioClip theta;
+
 }

@@ -7,6 +7,7 @@ public class Wave : MonoBehaviour
     private WaveBarHandler playerElements;
     private Transform player;
     private bool touched = false;
+    string myTag;
 
     private const float TIME_MOVEMENT_FROM_WAVE_TO_PLAYER = 1.5f;
 
@@ -14,6 +15,7 @@ public class Wave : MonoBehaviour
     {
         playerElements = FindObjectOfType<WaveBarHandler>();
         player = GameObject.FindGameObjectWithTag("Neurone").transform;
+        myTag = this.gameObject.tag;
     }
     	
 	private void OnTriggerEnter2D (Collider2D _other)
@@ -21,21 +23,47 @@ public class Wave : MonoBehaviour
         if (_other.CompareTag("Barriera"))
         {
             player.GetComponent<AudioSource>().Stop();
-            player.GetComponent<AudioSource>().clip = AudioContainer.Self.risucchio;
-            _other.transform.parent.GetComponent<AudioSource>().Play();
+            AudioOnde();
         }
 
         else if (_other.gameObject.tag == "Neurone")
         {
             player.GetComponent<AudioSource>().Stop();
-            player.GetComponent<AudioSource>().clip = AudioContainer.Self.risucchio;
-            player.GetComponent<AudioSource>().Play();
+            AudioOnde();
+            
         }
 
         playerElements.UpdateBar(heartz);
 
         StartCoroutine(IncorporationCO());
         StartCoroutine(FollowPlayerCO());
+    }
+
+    public void AudioOnde()
+    {
+        switch (this.gameObject.tag)
+        {
+            case "alpha":
+                player.GetComponent<AudioSource>().clip = AudioContainer.Self.alpha;
+                player.GetComponent<AudioSource>().Play();
+                break;
+            case "beta":
+                player.GetComponent<AudioSource>().clip = AudioContainer.Self.beta;
+                player.GetComponent<AudioSource>().Play();
+                break;
+            case "gamma":
+                player.GetComponent<AudioSource>().clip = AudioContainer.Self.gamma;
+                player.GetComponent<AudioSource>().Play();
+                break;
+            case "delta":
+                player.GetComponent<AudioSource>().clip = AudioContainer.Self.delta;
+                player.GetComponent<AudioSource>().Play();
+                break;
+            case "theta":
+                player.GetComponent<AudioSource>().clip = AudioContainer.Self.theta;
+                player.GetComponent<AudioSource>().Play();
+                break;
+        }
     }
     
     private IEnumerator IncorporationCO()
