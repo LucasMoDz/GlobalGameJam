@@ -29,6 +29,7 @@ public class Life : MonoBehaviour {
     {
         mainC.gameObject.SetActive(false);
         this.GetComponent<ForceFromAccelerometer>().enabled = false;
+        this.GetComponent<Rigidbody2D>().isKinematic = true;
         this.GetComponent<AudioSource>().clip = AudioContainer.Self.morte;
         this.GetComponent<AudioSource>().Play();
         
