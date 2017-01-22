@@ -5,11 +5,15 @@ public class SpawnWavesManager : MonoBehaviour
 {
     public GameObject[] waves;
 
-    private SpawnPointsGenerator generator;
+    private ObjectPool objectPool;
+    private SpawnPointsGenerator[] generator;
 
-    private void Awake()
+    private void Start()
     {
-        generator = FindObjectOfType<SpawnPointsGenerator>();
+        generator = FindObjectsOfType<SpawnPointsGenerator>();
+        objectPool = FindObjectOfType<ObjectPool>();
+
+        StartWavesManager();
     }
 
     public void StartWavesManager()
@@ -19,12 +23,22 @@ public class SpawnWavesManager : MonoBehaviour
 
     private IEnumerator ManagerWavesCO()
     {
-        while (true)
+        for (int i = 0; i < generator.Length; i++)
         {
-            for (int i = 0; i < generator.listSpawnPoints.Count; i++)
+            for (int j = 0; j < generator[i].listSpawnPoints.Count; j++)
             {
-                generator.listSpawnPoints[i].firstTransform.GetComponent<Rigidbody2D>().AddForce(generator.listSpawnPoints[i].secondTransform.transform.position - generator.listSpawnPoints[i].firstTransform.transform.position, ForceMode2D.Impulse);
+                int value = Random.Range(0, waves.Length - 1);
+                GameObject newWave = waves[value].Spawn(generator[i].listSpawnPoints[j].firstTransform.transform.position);
+
+                Vector2 direction = generator[i].listSpawnPoints[j].secondTransform.transform.position - generator[i].listSpawnPoints[j].firstTransform.transform.position;
+                direction.Normalize();
+
+                newWave.GetComponent<Rigidbody2D>().AddForce(direction * 3, ForceMode2D.Impulse);
+
+                yield return new WaitForSeconds(Random.Range(0, 1.5f));
             }
         }
+        
+        yield break;
     }
 }
