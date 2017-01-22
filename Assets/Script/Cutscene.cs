@@ -17,7 +17,7 @@ public class Cutscene : MonoBehaviour
     {
         public string text;
         public bool fading;
-        public Image[] image;
+        public GameObject[] image;
     }
 
     private void Awake()
@@ -43,7 +43,7 @@ public class Cutscene : MonoBehaviour
             {
                 for (int j = 0; j < frames[i].image.Length; j++)
                 {
-                    frames[i].image[j].color = Color.white;
+                    frames[i].image[j].GetComponent<SpriteRenderer>().color = Color.white;
                     frames[i].image[j].gameObject.SetActive(true);
                 }
             }
@@ -71,14 +71,14 @@ public class Cutscene : MonoBehaviour
         Debug.Log("End of cutscene");
     }
 
-    private IEnumerator FadeInCO(Image _image)
+    private IEnumerator FadeInCO(GameObject _sprite)
     {
         Color newColor = new Color(1, 1, 1, 0);
         
         while (newColor.a < 1)
         {
             newColor.a += Time.deltaTime / SECONDS_TO_FADE;
-            _image.color = newColor;
+            _sprite.GetComponent<Image>().color = newColor;
 
             if (Input.touchCount == 1)
             {

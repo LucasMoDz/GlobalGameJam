@@ -13,12 +13,20 @@ public class Zoom : MonoBehaviour
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
     }
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Return))
+            StartCameraTransition();
+    }
+
     public void StartCameraTransition()
     {
+        GameObject.Find("Canvas").SetActive(false);
+
         StartCoroutine(CameraTransitionCO());
         StartCoroutine(IncreaseZoomCO());
     }
-
+    
     private IEnumerator CameraTransitionCO()
     {
         Vector2 currentCameraPosition = mainCamera.transform.position;
@@ -26,8 +34,10 @@ public class Zoom : MonoBehaviour
 
         while ((targetCamera.transform.position - mainCamera.transform.position).magnitude > 0.1f)
         {
+            Debug.Log("Loop");
             step += Time.deltaTime / transitionSeconds;
             mainCamera.transform.position = Vector2.Lerp(currentCameraPosition, targetCamera.transform.position, step);
+            mainCamera.transform.position -= new Vector3(0, 0, 20);
             yield return null;
         }
 
@@ -39,7 +49,7 @@ public class Zoom : MonoBehaviour
         float startSizeCamera = mainCamera.orthographicSize;
         float step = 0;
 
-        while ((Mathf.Abs(mainCamera.orthographicSize - targetCamera.orthographicSize) > 0.1f))
+        while ((Mathf.Abs(targetCamera.orthographicSize - mainCamera.orthographicSize) > 0.1f))
         {
             step += Time.deltaTime / transitionSeconds;
             mainCamera.orthographicSize = Mathf.Lerp(startSizeCamera, targetCamera.orthographicSize, step);
@@ -47,5 +57,8 @@ public class Zoom : MonoBehaviour
         }
 
         mainCamera.orthographicSize = targetCamera.orthographicSize;
+
+        yield return new WaitForSeconds(1);
+        StartCoroutine(FindObjectOfType<TriggerExit>().FadeToScene("LevelGame"));
     }
 }
