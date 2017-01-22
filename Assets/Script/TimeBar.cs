@@ -33,7 +33,7 @@ public class TimeBar : MonoBehaviour
                 barTime.fillAmount -= pieceToFill;
                 yield return new WaitForSeconds(1);
             }
-
+            timeEnabled = false;
             StartCoroutine(life.Die());
         
         yield break;
