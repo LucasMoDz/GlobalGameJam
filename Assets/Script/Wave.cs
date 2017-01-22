@@ -29,7 +29,7 @@ public class Wave : MonoBehaviour
         {
             player.GetComponent<AudioSource>().Stop();
             player.GetComponent<AudioSource>().clip = AudioContainer.Self.risucchio;
-            _other.transform.parent.GetComponent<AudioSource>().Play();
+            player.GetComponent<AudioSource>().Play();
         }
 
         playerElements.UpdateBar(heartz);
