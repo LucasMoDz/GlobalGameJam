@@ -19,10 +19,18 @@ public class Wave : MonoBehaviour
 	private void OnTriggerEnter2D (Collider2D _other)
     {
         if (_other.CompareTag("Barriera"))
+        {
+            player.GetComponent<AudioSource>().Stop();
+            player.GetComponent<AudioSource>().clip = AudioContainer.Self.risucchio;
             _other.transform.parent.GetComponent<AudioSource>().Play();
+        }
 
         else if (_other.gameObject.tag == "Neurone")
-            _other.GetComponent<AudioSource>().Play();
+        {
+            player.GetComponent<AudioSource>().Stop();
+            player.GetComponent<AudioSource>().clip = AudioContainer.Self.risucchio;
+            _other.transform.parent.GetComponent<AudioSource>().Play();
+        }
 
         playerElements.UpdateBar(heartz);
 

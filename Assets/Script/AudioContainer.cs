@@ -16,4 +16,7 @@ public class AudioContainer : MonoBehaviour {
     }
 
     public AudioClip morte;
+    public AudioClip vittoria;
+    public AudioClip risucchio;
+    public AudioClip sottofondo;
 }
