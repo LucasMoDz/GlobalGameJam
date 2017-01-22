@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class SpawnWaves : MonoBehaviour
+public class SpawnPointsGenerator : MonoBehaviour
 {
     [Range(0, 100)]
     public int spawnPercentage;
