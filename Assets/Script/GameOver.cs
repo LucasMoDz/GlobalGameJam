@@ -11,25 +11,27 @@ public class GameOver : MonoBehaviour {
 		fader = FindObjectOfType<CanvasFader> ();
 	}
 
-	public void Restart ()
+	public void TryAgain ()
     {
         //SceneManager.LoadScene(0);
-		StartCoroutine(FadeToScene());
+		StartCoroutine(FadeToScene("LevelGame"));
     }
 	
 	
 	public void Exit ()
     {
-        Application.Quit();
-	
+        //Application.Quit();
+		StartCoroutine(FadeToScene("StartScreen"));
 	}
 
 
-	public IEnumerator FadeToScene () {
-
-		fader.GetComponent<CanvasFader>().FadeOut();
-		yield return new WaitForSeconds(0.8f);
-		SceneManager.LoadScene(0);
+	public IEnumerator FadeToScene (string sceneToLoad) {
+		if (fader != null)
+		{
+			fader.GetComponent<CanvasFader>().FadeIn();
+			yield return new WaitForSeconds(0.8f);
+			SceneManager.LoadScene(sceneToLoad);
+		}
 
 
 	}
