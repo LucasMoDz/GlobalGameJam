@@ -6,7 +6,7 @@ public class Wave : MonoBehaviour
     public int heartz;
     private WaveBarHandler playerElements;
     private Transform player;
-    private bool touched = false;
+    private bool touched;
     string myTag;
 
     private const float TIME_MOVEMENT_FROM_WAVE_TO_PLAYER = 1.5f;
@@ -20,23 +20,27 @@ public class Wave : MonoBehaviour
     	
 	private void OnTriggerEnter2D (Collider2D _other)
     {
-        if (_other.CompareTag("Barriera"))
+        if (!touched)
         {
-            player.GetComponent<AudioSource>().Stop();
-            AudioOnde();
+            if (_other.CompareTag("Barriera"))
+            {
+                player.GetComponent<AudioSource>().Stop();
+                AudioOnde();
+            }
+
+            else if (_other.gameObject.tag == "Neurone")
+            {
+                player.GetComponent<AudioSource>().Stop();
+                AudioOnde();
+            }
+
+            touched = true;
+
+            playerElements.UpdateBar(heartz);
+
+            StartCoroutine(IncorporationCO());
+            StartCoroutine(FollowPlayerCO());
         }
-
-        else if (_other.gameObject.tag == "Neurone")
-        {
-            player.GetComponent<AudioSource>().Stop();
-            AudioOnde();
-            
-        }
-
-        playerElements.UpdateBar(heartz);
-
-        StartCoroutine(IncorporationCO());
-        StartCoroutine(FollowPlayerCO());
     }
 
     public void AudioOnde()
